@@ -70,6 +70,7 @@ export default function Cart() {
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
