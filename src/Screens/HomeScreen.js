@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { View, Text, TextInput, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../Redux/productsSlice";
 import Header from "../Components/common/Header";
@@ -11,15 +18,17 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.items);
   const productStatus = useSelector((state) => state.products.status);
+  const hasMore = useSelector((state) => state.products.hasMore);
 
-  // Use memoized values for optimized performance
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [page, setPage] = useState(1); // Track current page
+  const [loadingMore, setLoadingMore] = useState(false); // Track loading state for more products
 
   useEffect(() => {
     if (productStatus === "idle") {
-      dispatch(fetchProducts());
+      dispatch(fetchProducts({ page, limit: 10 }));
     }
-  }, [dispatch, productStatus]);
+  }, [dispatch, productStatus, page]);
 
   const categories = useMemo(
     () => ["All", ...new Set(products.map((product) => product.category))],
@@ -48,9 +57,20 @@ const HomeScreen = () => {
   );
 
   const getItemLayout = useCallback(
-    (data, index) => ({ length: 200, offset: 200 * index, index }),
+    (data, index) => ({ length: 20, offset: 20 * index, index }),
     []
   );
+
+ const loadMoreProducts = () => {
+   if (hasMore && !loadingMore) {
+     setLoadingMore(true);
+     const nextPage = page + 1; // Calculate the next page
+     setPage(nextPage); // Set the next page
+     dispatch(fetchProducts({ page: nextPage, limit: 10 })).then(() => {
+       setLoadingMore(false);
+     });
+   }
+ };
 
   return (
     <View style={styles.container}>
@@ -71,6 +91,13 @@ const HomeScreen = () => {
         renderItem={renderItem}
         getItemLayout={getItemLayout}
         contentContainerStyle={styles.productList}
+        onEndReached={loadMoreProducts} // Trigger load more when scrolled to the end
+        onEndReachedThreshold={0.5} // Trigger when half the items are visible
+        ListFooterComponent={
+          loadingMore ? (
+            <ActivityIndicator size="small" color="green" />
+          ) : null
+        } // Show loading indicator
       />
     </View>
   );

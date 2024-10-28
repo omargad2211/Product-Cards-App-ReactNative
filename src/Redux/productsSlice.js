@@ -4,10 +4,17 @@ import axios from "axios";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async () => {
+  async ({ page, limit }) => {
     try {
-      const response = await axios.get("https://dummyjson.com/products");
-      return response.data.products;
+      const response = await axios.get(
+        `https://dummyjson.com/products?skip=${
+          (page - 1) * limit
+        }&limit=${limit}`
+      );
+      return {
+        products: response.data.products,
+        hasMore: response.data.products.length > 0,
+      };
     } catch (e) {
       console.log(e);
     }
@@ -20,6 +27,7 @@ const productsSlice = createSlice({
     items: [],
     status: "idle",
     error: null,
+    hasMore: true, // Track if there are more products to load
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -29,7 +37,8 @@ const productsSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.items = action.payload;
+        state.items = [...state.items, ...action.payload.products]; // Append new products
+        state.hasMore = action.payload.hasMore; // Update hasMore state
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";
