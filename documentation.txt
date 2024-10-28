@@ -1,2 +1,50 @@
-to run the project:
+To run the project:
 npx expo start
+
+Summary of Features
+1-Product Cards Display:
+Header with product name.
+Body with product image and description.
+Footer with a "Buy" button and product price.
+
+
+2-Purchase Functionality:
+Users can add products to the cart.
+Cart screen lists products purchased within the last 2 days.
+
+
+3-Category Filtering:
+Filter products by category.
+Dynamic category generation based on products.
+
+
+3-Search Functionality:
+Search bar to find products by name.
+
+
+5-Pagination:
+Efficiently handle large lists by loading products in pages (lazy loading).
+
+
+6-Memoization:
+Used useMemo and useCallback to optimize performance by memoizing expensive computations and callback functions.
+
+
+7-Header with Linear Gradient:
+Implemented a custom header with linear gradient using expo-linear-gradient.
+
+
+
+
+Libraries Used:
+React Navigation: For navigation and tab management.
+
+Redux Toolkit: For state management.
+
+Axios: For data fetching from the API.
+
+Dayjs: For date manipulation.
+
+React Native Vector Icons: For icons in the navigation and buttons.
+
+Expo: For various utilities and development support.
