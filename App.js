@@ -5,9 +5,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Entypo from "@expo/vector-icons/Entypo";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-import HomeScreen from "./src/Pages/HomeScreen";
-import Cart from "./src/Pages/Cart";
-import store from "./src/Redux/store"; // Adjust path as needed
+import HomeScreen from "./src/Screens/HomeScreen";
+import Cart from "./src/Screens/Cart";
+import store from "./src/Redux/store"; 
 import { Provider } from "react-redux";
 
 export default function App() {
@@ -43,6 +43,7 @@ export default function App() {
               component={Cart}
               options={{
                 headerTitleAlign: "center",
+                headerShown: false,
                 tabBarIcon: ({ color, size }) => (
                   <AntDesign name="shoppingcart" size={24} color={color} />
                 ),

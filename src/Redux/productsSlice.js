@@ -5,8 +5,12 @@ import axios from "axios";
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
-    const response = await axios.get("https://dummyjson.com/products");
-    return response.data.products;
+    try {
+      const response = await axios.get("https://dummyjson.com/products");
+      return response.data.products;
+    } catch (e) {
+      console.log(e);
+    }
   }
 );
 

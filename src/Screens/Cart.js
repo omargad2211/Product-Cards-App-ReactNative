@@ -8,9 +8,14 @@ import {
   Image,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../Redux/cartSlice"; // Adjust the import path as needed
+import { removeFromCart } from "../Redux/cartSlice";
 import dayjs from "dayjs";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Header from "../Components/common/Header";
+import Empty from "./Empty";
+import { useNavigation } from "@react-navigation/native";
+
+
 
 export default function Cart() {
   const cartItems = useSelector((state) => state.cart);
@@ -37,23 +42,30 @@ export default function Cart() {
         style={styles.deleteButton}
       >
         <AntDesign name="delete" size={24} color={"#FB5B21"} />
-        {/* Adjust the path to your icon */}
       </TouchableOpacity>
     </View>
   );
 
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Your Cart</Text>
-      <FlatList
-        data={recentItems}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-        contentContainerStyle={styles.cartList}
-      />
-      {recentItems.length === 0 && (
-        <Text style={styles.emptyCartText}>Your cart is empty!</Text>
-      )}
+    <View>
+      <Header title="Cart" />
+
+      <View style={styles.container}>
+        <FlatList
+          data={recentItems}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          contentContainerStyle={styles.cartList}
+        />
+        {recentItems.length === 0 && (
+          <Empty
+            message="Your cart is empty!"
+            buttonText="Shop Now"
+            onPress={() => navigation.navigate("shop")}
+          />
+        )}
+      </View>
     </View>
   );
 }
@@ -61,8 +73,8 @@ export default function Cart() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     backgroundColor: "#F5F5F5",
+    padding: 16,
   },
   header: {
     fontSize: 24,
@@ -72,7 +84,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   cartList: {
-    paddingBottom: 100, // Add some padding to avoid overlapping with any potential footer
+    paddingBottom: 100,
   },
   cartItem: {
     flexDirection: "row",
@@ -81,11 +93,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     marginBottom: 10,
-    elevation: 2, // For shadow effect on Android
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.0,
+    elevation: 2,
+    boxShadow: "0px 1px 1px rgba(0, 0, 0, 0.2)",
   },
   cartItemImage: {
     width: 80,
@@ -103,7 +112,7 @@ const styles = StyleSheet.create({
   },
   cartItemPrice: {
     fontSize: 16,
-    color: "#FB5B21",
+    color: "#7B61B3",
   },
   deleteButton: {
     padding: 8,

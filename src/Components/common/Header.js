@@ -1,29 +1,28 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { View, Text, StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient"; 
 
-const HomeHeader = ({ title = "Home", onSearchPress, onSettingsPress }) => {
+const Header = ({ title = "Home" }) => {
   return (
-    <View style={styles.headerContainer}>
+    <LinearGradient
+      colors={["green", "#A5D6A7"]} 
+      style={styles.headerContainer}
+    >
       <Text style={styles.headerTitle}>{title}</Text>
-    </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   headerContainer: {
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 15,
+    paddingVertical: 25,
     paddingHorizontal: 20,
     justifyContent: "space-between",
-    backgroundColor: "green", // Primary color
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
     elevation: 5,
   },
   headerTitle: {
@@ -31,6 +30,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFF",
     letterSpacing: 1,
+    marginTop: 10,
   },
   iconContainer: {
     flexDirection: "row",
@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeHeader;
+export default Header;

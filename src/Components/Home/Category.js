@@ -7,7 +7,7 @@ export default function Category({
   setSelectedCategory,
 }) {
   return (
-    <View>
+    <View style={styles.container}>
       <TouchableOpacity onPress={() => setSelectedCategory(categoryItem)}>
         <Text
           style={[
@@ -25,6 +25,8 @@ export default function Category({
   );
 }
 
+
+
 const styles = StyleSheet.create({
   categoryText: {
     fontSize: 16,
@@ -35,6 +37,9 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginHorizontal: 10,
     paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  container: {
     paddingVertical: 10,
   },
 });
